@@ -3,259 +3,391 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#08090b">
+<meta name="theme-color" content="#070914">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon.svg">
-<title>100-Day Journey</title>
+<link rel="icon" href="icon.svg">
+<title>100-Day Shinobi Journey</title>
 <style>
-:root{
- --bg:#07080a;--card:#101216;--card2:#14171d;--text:#f5f6f8;--muted:#9297a2;
- --line:#252a33;--green:#9bea58;--cyan:#54d8ff;--blue:#5b8cff;--violet:#a981ff;
- --orange:#ffb35c;--red:#ff6b72;
-}
 *{box-sizing:border-box}
-html{background:var(--bg);scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(circle at 50% -10%,#151827 0,#07080a 34%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Arial,sans-serif}
-button,input{font:inherit}button{cursor:pointer}
-.app{max-width:560px;margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 16px 92px}
-header{height:58px;display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:700;letter-spacing:.1px}
-.brand img{width:27px;height:27px}
-.iconbtn{width:36px;height:36px;border:1px solid var(--line);background:#11141a;color:#bfc4ce;border-radius:11px}
+:root{
+  --bg:#070914;--panel:#0d1020;--panel2:#111528;--line:#252b42;
+  --text:#f7f8ff;--muted:#8f96ad;--muted2:#5f667d;
+  --blue:#36a7ff;--blue2:#5b5dff;--violet:#9a5cff;--green:#a8f15a;
+  --orange:#ff8a3d;--danger:#ff5c73;
+}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
+body{min-height:100vh}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{max-width:620px;margin:auto;padding:env(safe-area-inset-top) 16px calc(92px + env(safe-area-inset-bottom))}
+header{height:66px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:800;letter-spacing:.08em}
+.logo{width:30px;height:30px;border-radius:10px;box-shadow:0 0 22px rgba(54,167,255,.28)}
+.iconbtn{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:#0b0e1a;color:#b8bfd2}
 .screen{display:none}.screen.active{display:block}
-.eyebrow{font-size:10px;letter-spacing:1.45px;color:var(--muted);text-transform:uppercase}
-.hero{padding:20px 2px 12px}.hero h1{font-size:34px;line-height:1.02;letter-spacing:-1.3px;margin:7px 0 6px;font-weight:700}.sub{color:var(--muted);font-size:14px}
-
-.journey{margin-top:13px;padding:18px;border:1px solid #2a2e37;border-radius:20px;background:linear-gradient(145deg,#11141a,#0c0e12);box-shadow:0 14px 38px rgba(0,0,0,.18)}
-.jtop{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start}
-.current small,.next small{display:block;color:var(--green);font-size:9px;letter-spacing:1.15px;text-transform:uppercase}
-.character{display:flex;align-items:center;gap:11px;margin-top:5px}
-.face{width:62px;height:62px;border-radius:18px;background:#171a20;border:1px solid #303640;display:grid;place-items:center;overflow:hidden;flex:0 0 auto}
-.face img{width:100%;height:100%;display:block;object-fit:cover;object-position:50% 16%;transform:scale(2.35)}.face.imgFail:after{content:"忍";font-size:28px;color:#54d8ff}
-.rankname{font-size:25px;font-weight:750;letter-spacing:-.8px;line-height:1}
-.current .day{color:var(--muted);font-size:12px;margin-top:7px}
-.next{text-align:right;border:1px solid #2d323b;background:#12151a;border-radius:15px;padding:11px 12px;min-width:128px}
-.next .face{width:42px;height:42px;margin:6px 0 6px auto;border-radius:13px}
-.next strong{display:block;font-size:14px;margin-top:2px}
-.next span{display:block;color:var(--green);font-size:11px;margin-top:3px}
-
-.progressWrap{margin-top:18px}
-.progressMeta{display:flex;justify-content:space-between;color:var(--muted);font-size:9px}
-.progress{height:10px;border-radius:999px;background:#20242c;overflow:hidden;margin-top:7px;box-shadow:inset 0 0 0 1px #2b3039}
-.progress i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#8fe74d,#52d9ff,#788dff,#b58bff,#ffb15c);transition:width .35s ease}
-.progressPct{text-align:center;font-size:12px;color:#dfe2e8;margin-top:8px}
-
-.timeline{margin-top:17px;position:relative}
-.trow{display:grid;grid-template-columns:repeat(6,1fr);position:relative;height:52px}
-.trow.r3{grid-template-columns:repeat(5,1fr)}
-.tnode{position:relative;display:flex;align-items:center;justify-content:center}
-.tnode:not(:last-child)::after{content:"";position:absolute;height:3px;background:linear-gradient(90deg,#303640,#3d4450);top:50%;left:50%;right:-50%;transform:translateY(-50%);z-index:0}
-.trow.r2 .tnode:first-child::after,.trow.r3 .tnode:first-child::after{display:none}
-.tball{width:18px;height:18px;border-radius:50%;position:relative;z-index:2;border:1px solid #3c4652;background:radial-gradient(circle at 34% 30%,#e9ffff 0 7%,#72e7ff 10%,#267cff 37%,#123b9e 62%,#071225 100%);box-shadow:0 0 0 3px #11141a,0 0 10px rgba(60,170,255,.15)}
-.tball:after{content:"";position:absolute;inset:3px;border:1px solid rgba(255,255,255,.7);border-radius:50%;transform:rotate(-25deg) skewX(-18deg)}
-.tnode.done .tball{box-shadow:0 0 0 3px #11141a,0 0 12px rgba(82,217,255,.28)}
-.tnode.current .tball{width:24px;height:24px;border-color:#9bea58;box-shadow:0 0 0 4px #1b2715,0 0 18px rgba(155,234,88,.42)}
-.trow.r2{direction:rtl}.trow.r2 .tnode{direction:ltr}.trow.r2 .tnode:not(:last-child)::after{left:-50%;right:50%;background:linear-gradient(270deg,#303640,#3d4450)}
-.trow.r3{direction:ltr}
-.turn{position:absolute;width:18px;height:32px;border-left:3px solid #3d4450;right:0;top:25px;border-bottom:3px solid #3d4450;border-radius:0 0 7px 0}
-.turn.up{top:-5px;bottom:auto;border-bottom:0;border-top:3px solid #3d4450;border-radius:0 7px 0 0}
-.tlabels{display:grid;grid-template-columns:repeat(16,1fr);gap:0;margin-top:2px}
-.tlabel{text-align:center;font-size:7px;color:#555b65;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tlabel strong{display:block;color:#737a86;font-size:7px;font-weight:500}.tlabel.current strong{color:var(--green)}.tlabel.current{color:#9aa1ac}
-
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
-.stat{padding:14px 12px;border:1px solid var(--line);background:var(--card);border-radius:15px}.stat .value{font-size:24px;letter-spacing:-.7px;margin-top:4px;font-weight:650}.stat .hint{font-size:9px;color:var(--muted);margin-top:3px}
-
-.sectionTitle{display:flex;justify-content:space-between;align-items:center;margin:23px 2px 9px}.sectionTitle strong{font-size:12px;letter-spacing:1px;text-transform:uppercase}
-.todayCard{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:15px}.todayTop{display:flex;justify-content:space-between;gap:12px;align-items:center}.todayName{font-size:18px;font-weight:600}.location{font-size:9px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:1px}.badge{border:1px solid #343941;border-radius:999px;padding:7px 9px;font-size:9px;color:#aaa;white-space:nowrap}.badge.done{color:#0a0b0d;background:var(--green);border-color:var(--green)}
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.daybox{border:1px solid var(--line);border-radius:10px;background:#0d0f12;padding:9px 2px;text-align:center;color:#777;font-size:9px}.daybox b{display:block;font-size:10px;color:#b5b8bf;margin-bottom:5px}.daybox.today{border-color:#8ab35f}.daybox.done{background:#151d14;border-color:#4d743d;color:#d2edc2}.daybox.done b{color:#e3f6d9}
-.quote{margin-top:14px;padding:14px 15px;border-radius:14px;border:1px solid #2d3540;background:linear-gradient(110deg,#11191b,#171522,#1b1a13)}.quote strong{font-size:14px;font-weight:600}.quote p{font-size:11px;color:var(--muted);margin:4px 0 0}
-
-.filters{display:flex;gap:7px;overflow:auto;padding:12px 0}.filter{border:1px solid #30343b;background:none;color:#8f939b;border-radius:999px;padding:7px 11px;font-size:10px;white-space:nowrap}.filter.active{background:#fff;color:#000;border-color:#fff}
-.planrow{display:flex;align-items:center;gap:11px;padding:13px 2px;border-bottom:1px solid var(--line)}.num{width:27px;color:#656a73;font-size:10px}.pinfo{flex:1}.pinfo strong{font-size:14px;font-weight:500}.pinfo span{display:block;color:#747983;font-size:9px;margin-top:3px}.status{width:20px;height:20px;border:1px solid #3a3e45;border-radius:50%;display:grid;place-items:center;font-size:11px}.status.done{background:var(--green);color:#0a0b0d;border-color:var(--green)}
-.metric{padding:16px 0;border-bottom:1px solid var(--line)}.metric .big{font-size:29px;margin-top:5px}.metric small{color:var(--muted);font-size:10px}.spark{height:80px;display:flex;align-items:flex-end;gap:5px;margin-top:12px}.spark i{flex:1;background:linear-gradient(to top,#7fd052,#54d6d2);border-radius:3px 3px 0 0;min-height:3px}
-.field{margin:17px 0}.field label{display:block;color:var(--muted);font-size:10px;letter-spacing:1px;margin-bottom:7px}.field input{width:100%;background:#111318;border:1px solid #2b2f36;color:#fff;border-radius:10px;padding:12px;outline:none}
-.primary{width:100%;background:#fff;color:#000;border:0;border-radius:11px;padding:13px;font-weight:650}.secondary{width:100%;background:none;color:#fff;border:1px solid #3b3f46;border-radius:11px;padding:12px;margin-top:9px}
-nav{position:fixed;left:0;right:0;bottom:0;background:rgba(8,9,11,.93);backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:7px 16px calc(7px + env(safe-area-inset-bottom));z-index:5}nav .inner{max-width:560px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr)}nav button{background:none;border:0;color:#696e77;font-size:10px;padding:6px}.ni{display:block;font-size:18px;margin-bottom:2px}.navActive{color:#fff}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:flex-end;z-index:10}.modal.open{display:flex}.sheet{width:100%;max-width:560px;margin:auto;background:#111318;border:1px solid #2b2f36;border-bottom:0;border-radius:18px 18px 0 0;padding:20px 17px calc(22px + env(safe-area-inset-bottom))}.sheetHead{display:flex;justify-content:space-between}.close{background:none;border:0;color:#999;font-size:25px}.focus div{padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}.rpe{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:9px}.rpe button{background:none;color:#fff;border:1px solid #343941;border-radius:9px;padding:9px 3px;font-size:10px}.rpe button.sel{background:#fff;color:#000}
-@media(max-width:390px){.app{padding-left:13px;padding-right:13px}.journey{padding:15px}.face{width:54px;height:54px}.rankname{font-size:22px}.next{min-width:116px}.tball{width:16px;height:16px}.tnode.current .tball{width:22px;height:22px}.trow{height:48px}.tlabel{font-size:6px}.tlabel strong{font-size:6px}}
+.hero{padding:22px 4px 20px}
+.eyebrow{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.hero h1{font-size:38px;line-height:1.02;margin:8px 0 8px;letter-spacing:-.045em}
+.hero .sub{color:var(--muted);font-size:15px;line-height:1.45}
+.journey{
+  position:relative;overflow:hidden;border:1px solid #272d45;
+  background:
+    radial-gradient(circle at 18% 15%,rgba(54,167,255,.12),transparent 30%),
+    radial-gradient(circle at 86% 35%,rgba(154,92,255,.10),transparent 28%),
+    linear-gradient(145deg,#0d1120,#090b14 70%);
+  border-radius:26px;padding:18px;box-shadow:0 18px 50px rgba(0,0,0,.28)
+}
+.journey:after{content:"";position:absolute;inset:auto -20% -55% 15%;height:140px;background:radial-gradient(ellipse,rgba(54,167,255,.10),transparent 65%);pointer-events:none}
+.jtop{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.current{min-width:0}
+.current small,.next small{display:block;color:var(--green);font-size:9px;letter-spacing:.18em;font-weight:800;margin-bottom:8px}
+.rankRow{display:flex;align-items:center;gap:12px}
+.portrait{width:74px;height:74px;border-radius:22px;object-fit:cover;object-position:center top;background:#171b2b;border:1px solid #343b58;box-shadow:0 0 0 5px rgba(54,167,255,.05),0 10px 30px rgba(0,0,0,.35)}
+.portrait.small{width:50px;height:50px;border-radius:16px;box-shadow:none}
+.rankName{font-size:28px;font-weight:900;letter-spacing:-.04em}
+.rankDay{font-size:13px;color:var(--muted);margin-top:3px}
+.next{width:142px;border:1px solid #2b3148;background:rgba(17,21,40,.72);border-radius:20px;padding:11px;text-align:center}
+.next .nextPortrait{display:flex;justify-content:center;margin:5px 0 6px}
+.next strong{display:block;font-size:13px;letter-spacing:.02em}
+.next span{display:block;color:var(--green);font-size:11px;font-weight:800;margin-top:3px}
+.progressMeta{display:flex;justify-content:space-between;color:var(--muted);font-size:9px;letter-spacing:.12em;margin:22px 0 7px}
+.progress{height:10px;background:#1a1f2f;border:1px solid #2c3245;border-radius:999px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--violet),var(--green));border-radius:999px;box-shadow:0 0 16px rgba(91,93,255,.5);transition:width .4s}
+.progressPct{text-align:center;color:#cbd1e3;font-size:12px;margin-top:8px}
+.path{margin-top:22px;display:grid;gap:0}
+.pathRow{display:flex;align-items:center;min-height:58px}
+.pathRow.reverse{flex-direction:row-reverse}
+.node{width:28px;height:28px;border-radius:50%;flex:0 0 28px;background:radial-gradient(circle at 35% 30%,#dff6ff 0 8%,#54b9ff 22%,#3268ff 50%,#17224c 75%);border:2px solid #263c77;box-shadow:0 0 10px rgba(54,167,255,.25);position:relative;z-index:2}
+.node.done{filter:saturate(.25);opacity:.42}
+.node.current{width:36px;height:36px;flex-basis:36px;border-color:var(--green);box-shadow:0 0 0 5px rgba(168,241,90,.08),0 0 24px rgba(54,167,255,.65)}
+.connector{height:3px;background:linear-gradient(90deg,#283149,#3d4b6a);flex:1;border-radius:99px}
+.pathLabel{width:58px;text-align:center;color:#697188;font-size:8px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pathLabel.current{color:#dbe2f4;font-weight:800}
+.pathCell{display:flex;align-items:center;gap:5px;flex:1}
+.pathRow.reverse .pathCell{flex-direction:row-reverse}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.stat{background:#0c0f1a;border:1px solid var(--line);border-radius:18px;padding:14px 12px}
+.stat .value{font-size:26px;font-weight:900;margin-top:6px;letter-spacing:-.04em}
+.stat .hint{font-size:10px;color:var(--muted);margin-top:3px}
+.todayCard{border:1px solid var(--line);background:linear-gradient(145deg,#0e1220,#0b0d16);border-radius:22px;padding:16px}
+.todayTop{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.todayName{font-size:18px;font-weight:800}.location{font-size:10px;color:var(--muted);letter-spacing:.14em;margin-top:4px}
+.badge{border:1px solid #3a4056;color:#9aa3ba;border-radius:999px;padding:7px 10px;font-size:9px;font-weight:800;letter-spacing:.1em}
+.badge.done{color:#071009;background:var(--green);border-color:var(--green)}
+.attendBtn{margin-top:14px;width:100%;border:0;border-radius:14px;padding:13px;background:linear-gradient(90deg,#eef7ff,#fff);color:#080a12;font-weight:900}
+.attendBtn.done{background:#16251a;color:#b8f47a;border:1px solid #42642f}
+.weekTitle,.sectionTitle{display:flex;justify-content:space-between;align-items:center;margin:22px 3px 10px}
+.sectionTitle strong{font-size:17px}.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.daybox{border:1px solid #272d41;background:#0d101a;border-radius:13px;padding:9px 2px;text-align:center;color:#6d758b;font-size:10px}
+.daybox b{display:block;font-size:8px;margin-bottom:4px;color:#555d73}
+.daybox.today{border-color:#6572a0;color:#dce3f4}.daybox.done{background:#15241a;border-color:#456b34;color:#b9f47d}
+.quote{margin-top:12px;border:1px solid #2b3043;background:linear-gradient(145deg,#101425,#0b0d16);border-radius:20px;padding:15px 16px}
+.quote strong{font-size:14px}.quote p{margin:5px 0 0;color:#8991a7;font-size:12px;line-height:1.5}
+.filters{display:flex;gap:7px;overflow:auto;padding-bottom:12px}.filter{white-space:nowrap;border:1px solid var(--line);background:#0d101a;color:#8e96aa;border-radius:999px;padding:8px 12px;font-size:11px}.filter.active{background:#fff;color:#080a10}
+.planrow{display:flex;align-items:center;gap:12px;padding:14px 2px;border-bottom:1px solid #20263a}
+.num{width:24px;color:#60687d;font-size:10px}.pinfo{flex:1}.pinfo strong{display:block;font-size:14px}.pinfo span{display:block;color:#687188;font-size:10px;margin-top:3px}.status{width:22px;height:22px;border-radius:50%;border:1px solid #343b50}.status.done{background:var(--green);border-color:var(--green);color:#071009;text-align:center;font-size:14px;line-height:20px;font-weight:900}
+.progressCard{border:1px solid var(--line);background:#0d101b;border-radius:22px;padding:18px;margin-bottom:12px}
+.bigProgress{font-size:44px;font-weight:900;letter-spacing:-.05em}.progressCard p{margin:3px 0 15px;color:var(--muted);font-size:12px}
+.milestoneList{display:grid;gap:7px}.milestoneRow{display:flex;align-items:center;gap:10px;border-bottom:1px solid #1d2334;padding:9px 0}.milestoneRow img{width:38px;height:38px;border-radius:13px;object-fit:cover;background:#171b2b}.milestoneRow .grow{flex:1}.milestoneRow strong{font-size:12px}.milestoneRow span{display:block;color:#697188;font-size:9px;margin-top:2px}.state{font-size:9px;color:#6e778d}.state.current{color:var(--green);font-weight:900}
+.field{margin-top:12px}.field label{display:block;color:#7f879c;font-size:9px;letter-spacing:.15em;font-weight:800;margin-bottom:7px}.field input{width:100%;background:#0c0f19;border:1px solid var(--line);border-radius:12px;padding:12px;color:#fff;outline:none}.primary,.secondary{width:100%;padding:13px;border-radius:13px;margin-top:12px;font-weight:800}.primary{border:0;background:#fff;color:#070910}.secondary{border:1px solid #343b50;background:transparent;color:#d8ddec}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);display:none;align-items:flex-end;z-index:20}.modal.open{display:flex}.sheet{width:min(620px,100%);margin:auto;background:#0d101a;border:1px solid #2b3044;border-bottom:0;border-radius:24px 24px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom))}.sheetHead{display:flex;justify-content:space-between;align-items:flex-start}.close{background:none;border:0;color:#8d95aa;font-size:28px}.focus div{padding:8px 0;border-bottom:1px solid #20263a;font-size:12px;color:#c8cedd}.rpe{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:9px}.rpe button{background:#0b0e18;color:#b4bbce;border:1px solid #30364b;border-radius:10px;padding:9px 3px;font-size:10px}.rpe button.sel{background:#fff;color:#080a10}
+@media(max-width:430px){
+ .app{padding-left:12px;padding-right:12px}
+ .hero h1{font-size:34px}.journey{padding:15px}.rankName{font-size:24px}.portrait{width:66px;height:66px}
+ .next{width:126px}.next .portrait{width:44px;height:44px}
+ .pathLabel{width:47px;font-size:7px}.node{width:24px;height:24px;flex-basis:24px}.node.current{width:32px;height:32px;flex-basis:32px}
+ .stats{gap:6px}.stat{padding:12px 9px}.stat .value{font-size:23px}
+}
 </style>
 </head>
 <body>
 <div class="app">
-<header><div class="brand"><img src="icon.svg" alt="">100-DAY JOURNEY</div><button class="iconbtn" onclick="show('progress')">⌁</button></header>
+<header>
+  <div class="brand"><img class="logo" src="icon.svg" alt="">100-DAY SHINOBI</div>
+  <button class="iconbtn" onclick="show('progress',this)">⌁</button>
+</header>
 
 <section id="today" class="screen active">
-<div class="hero"><div class="eyebrow">CONSISTENCY IS THE GOAL</div><h1 id="welcome">Your 100 days.</h1><div class="sub">Show up. Build momentum. Become stronger.</div></div>
-
-<div class="journey">
- <div class="jtop">
-  <div class="current">
-   <small>YOUR CURRENT LEVEL</small>
-   <div class="character"><div class="face" id="rankFace"></div><div><div class="rankname" id="rank">KONOHAMARU</div><div class="day" id="rankday">Day 1 of 100</div></div></div>
+  <div class="hero">
+    <div class="eyebrow">CONSISTENCY IS THE GOAL</div>
+    <h1 id="welcome">Your 100 days.</h1>
+    <div class="sub">Show up. Build momentum. Become stronger.</div>
   </div>
-  <div class="next"><small>NEXT LEVEL</small><div class="face" id="nextFace"></div><strong id="nextRank">SAKURA</strong><span id="nextDay">Day 7</span></div>
- </div>
- <div class="progressWrap"><div class="progressMeta"><span>DAY 1</span><span>DAY 100</span></div><div class="progress"><i id="journeyBar"></i></div><div class="progressPct" id="journeyPct">1% of the journey</div></div>
- <div class="timeline" id="timeline"></div>
-</div>
 
-<div class="stats">
- <div class="stat"><div class="eyebrow">ATTENDANCE</div><div class="value" id="attend">0%</div><div class="hint" id="attendSub">0 training days</div></div>
- <div class="stat"><div class="eyebrow">STREAK</div><div class="value" id="streak">0</div><div class="hint">days in a row</div></div>
- <div class="stat"><div class="eyebrow">COMPLETED</div><div class="value" id="completed">0</div><div class="hint">of 100 days</div></div>
-</div>
+  <div class="journey">
+    <div class="jtop">
+      <div class="current">
+        <small>YOUR CURRENT LEVEL</small>
+        <div class="rankRow">
+          <img id="rankImg" class="portrait" alt="">
+          <div><div id="rank" class="rankName">KONOHAMARU</div><div id="rankday" class="rankDay">Day 1 of 100</div></div>
+        </div>
+      </div>
+      <div class="next">
+        <small>NEXT LEVEL</small>
+        <div class="nextPortrait"><img id="nextImg" class="portrait small" alt=""></div>
+        <strong id="nextRank">SAKURA</strong>
+        <span id="nextDay">Day 7</span>
+      </div>
+    </div>
 
-<div class="sectionTitle"><strong>Today</strong><span class="eyebrow" id="todayDay">Day 1</span></div>
-<div class="todayCard"><div class="todayTop"><div><div class="todayName" id="tn">Upper Body Strength</div><div class="location" id="tl">CALISTHENICS</div></div><span class="badge" id="todayStatus">NOT YET</span></div></div>
+    <div class="progressMeta"><span>DAY 1</span><span>DAY 100</span></div>
+    <div class="progress"><i id="journeyBar"></i></div>
+    <div class="progressPct" id="journeyPct">1% of the journey</div>
 
-<div class="sectionTitle"><strong>This week</strong><span class="eyebrow" id="weekCount">0 / 7</span></div>
-<div class="week" id="week"></div>
-<div class="quote"><strong id="quoteTitle">Start small.</strong><p id="quote">The first win is simply showing up.</p></div>
+    <div id="path" class="path"></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="eyebrow">ATTENDANCE</div><div id="attend" class="value">0%</div><div id="attendSub" class="hint">0 training days</div></div>
+    <div class="stat"><div class="eyebrow">STREAK</div><div id="streak" class="value">0</div><div class="hint">days in a row</div></div>
+    <div class="stat"><div class="eyebrow">COMPLETED</div><div id="completed" class="value">0</div><div class="hint">of 100 days</div></div>
+  </div>
+
+  <div class="sectionTitle"><strong>Today</strong><span id="todayDay" class="eyebrow">DAY 1</span></div>
+  <div class="todayCard">
+    <div class="todayTop">
+      <div><div id="tn" class="todayName">Upper Body Strength</div><div id="tl" class="location">CALISTHENICS</div></div>
+      <span id="todayStatus" class="badge">NOT YET</span>
+    </div>
+    <button id="attendBtn" class="attendBtn" onclick="openDay(current())">MARK TODAY AS ATTENDED</button>
+  </div>
+
+  <div class="sectionTitle"><strong>This week</strong><span id="weekCount" class="eyebrow">0 / 7</span></div>
+  <div id="week" class="week"></div>
+
+  <div class="quote"><strong id="quoteTitle">START SMALL.</strong><p id="quote">The first win is simply showing up.</p></div>
 </section>
 
 <section id="plan" class="screen">
-<div class="hero"><div class="eyebrow">YOUR SCHEDULE</div><h1>100-Day Plan</h1><div class="sub">One day. One module. No overthinking.</div></div>
-<div class="filters" id="filters"></div><div id="rows"></div>
+  <div class="hero"><div class="eyebrow">YOUR SCHEDULE</div><h1>100-Day Plan</h1><div class="sub">One day. One module. No overthinking.</div></div>
+  <div id="filters" class="filters"></div>
+  <div id="rows"></div>
 </section>
 
 <section id="progress" class="screen">
-<div class="hero"><div class="eyebrow">YOUR JOURNEY</div><h1>Progress</h1><div class="sub">Consistency is the metric.</div></div>
-<div class="metric"><div class="eyebrow">100-DAY COMPLETION</div><div class="big" id="pc">0 / 100</div><small id="pp">0%</small><div class="progress" style="margin-top:10px"><i id="completionBar"></i></div></div>
-<div class="metric"><div class="eyebrow">TRAINING ATTENDANCE</div><div class="big" id="cons">0%</div><small>Completed training days / elapsed training days</small></div>
-<div class="metric"><div class="eyebrow">BODY WEIGHT</div><div class="big" id="bw">—</div><div class="spark" id="spark"></div></div>
-<div class="metric"><div class="eyebrow">CURRENT LEVEL</div><div class="big" id="progressRank">Konohamaru</div><small id="progressRankSub">Day 1 of 100</small></div>
+  <div class="hero"><div class="eyebrow">YOUR JOURNEY</div><h1>Progress</h1><div class="sub">Your attendance is the score. Your streak is the fuel.</div></div>
+  <div class="progressCard">
+    <div class="eyebrow">DAYS COMPLETED</div>
+    <div id="pc" class="bigProgress">0 / 100</div>
+    <p id="progressRankSub">Day 1 · Konohamaru</p>
+    <div class="progress"><i id="completionBar"></i></div>
+  </div>
+  <div class="progressCard">
+    <div class="eyebrow">SHINOBI RANK</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:10px">
+      <img id="progressRankImg" class="portrait small" alt="">
+      <div><strong id="progressRank" style="font-size:20px">Konohamaru</strong><p style="margin:3px 0 0">Current milestone</p></div>
+    </div>
+  </div>
+  <div class="progressCard">
+    <div class="eyebrow">ATTENDANCE HISTORY</div>
+    <div id="cons" style="font-size:32px;font-weight:900;margin-top:6px">0%</div>
+    <p>Training days attended so far</p>
+  </div>
+  <div class="progressCard">
+    <div class="eyebrow">ALL 100 MILESTONES</div>
+    <div id="milestoneList" class="milestoneList"></div>
+  </div>
 </section>
 
 <section id="me" class="screen">
-<div class="hero"><div class="eyebrow">SETTINGS</div><h1>Me</h1><div class="sub">Keep your journey yours.</div></div>
-<div class="field"><label>NAME</label><input id="name" placeholder="Your name"></div>
-<div class="field"><label>START DATE</label><input id="start" type="date"></div>
-<div class="field"><label>GOAL WEIGHT (KG)</label><input id="goal" type="number" step=".1" placeholder="60"></div>
-<button class="primary" onclick="saveSettings()">SAVE</button><button class="secondary" onclick="resetData()">Reset progress</button>
+  <div class="hero"><div class="eyebrow">SETTINGS</div><h1>Me</h1><div class="sub">Keep your 100-day journey yours.</div></div>
+  <div class="field"><label>NAME</label><input id="name" placeholder="Your name"></div>
+  <div class="field"><label>START DATE</label><input id="start" type="date"></div>
+  <div class="field"><label>GOAL WEIGHT (KG)</label><input id="goal" type="number" step=".1" placeholder="60"></div>
+  <button class="primary" onclick="saveSettings()">SAVE SETTINGS</button>
+  <button class="secondary" onclick="resetData()">RESET ATTENDANCE</button>
 </section>
 </div>
 
-<nav><div class="inner">
-<button class="navActive" onclick="show('today',this)"><span class="ni">⌂</span>Today</button>
-<button onclick="show('plan',this)"><span class="ni">☷</span>Plan</button>
-<button onclick="show('progress',this)"><span class="ni">⌁</span>Progress</button>
-<button onclick="show('me',this)"><span class="ni">○</span>Me</button>
+<nav style="position:fixed;left:0;right:0;bottom:0;background:rgba(7,9,20,.94);backdrop-filter:blur(18px);border-top:1px solid #20263a;padding:7px 14px calc(7px + env(safe-area-inset-bottom));z-index:10">
+<div style="max-width:620px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr)">
+<button class="navActive" onclick="show('today',this)" style="background:none;border:0;color:#fff;font-size:10px;padding:6px"><span style="display:block;font-size:18px;margin-bottom:2px">⌂</span>Today</button>
+<button onclick="show('plan',this)" style="background:none;border:0;color:#687188;font-size:10px;padding:6px"><span style="display:block;font-size:18px;margin-bottom:2px">☷</span>Plan</button>
+<button onclick="show('progress',this)" style="background:none;border:0;color:#687188;font-size:10px;padding:6px"><span style="display:block;font-size:18px;margin-bottom:2px">⌁</span>Progress</button>
+<button onclick="show('me',this)" style="background:none;border:0;color:#687188;font-size:10px;padding:6px"><span style="display:block;font-size:18px;margin-bottom:2px">○</span>Me</button>
 </div></nav>
 
-<div class="modal" id="modal"><div class="sheet">
-<div class="sheetHead"><div><div class="eyebrow" id="md">DAY 1</div><h2 id="mt">Workout</h2><p id="ml"></p></div><button class="close" onclick="closeModal()">×</button></div>
-<div style="height:1px;background:#24272d;margin:17px 0"></div>
-<div class="eyebrow">TODAY'S MODULE</div><div class="focus" id="mf"></div>
-<div class="eyebrow" style="margin-top:18px">HOW DID IT FEEL?</div>
-<div class="rpe"><button onclick="rpe(this,1)">Easy</button><button onclick="rpe(this,2)">Good</button><button onclick="rpe(this,3)">Hard</button><button onclick="rpe(this,4)">Very hard</button></div>
-<div class="field"><label>BODY WEIGHT (OPTIONAL)</label><input id="wi" type="number" step=".1" placeholder="kg"></div>
-<div class="field"><label>NOTE (OPTIONAL)</label><input id="ni" placeholder="One line"></div>
-<button class="primary" onclick="complete()">MARK AS ATTENDED</button>
-</div></div>
+<div id="modal" class="modal">
+  <div class="sheet">
+    <div class="sheetHead">
+      <div><div id="md" class="eyebrow">DAY 1</div><h2 id="mt" style="margin:5px 0;font-size:23px">Upper Body Strength</h2><p id="ml" style="margin:0;color:#7e879d;font-size:11px"></p></div>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
+    <div style="height:1px;background:#20263a;margin:17px 0"></div>
+    <div class="eyebrow">TODAY'S FOCUS</div><div id="mf" class="focus"></div>
+    <div class="eyebrow" style="margin-top:18px">HOW DID IT FEEL?</div>
+    <div class="rpe"><button onclick="rpe(this,1)">Easy</button><button onclick="rpe(this,2)">Good</button><button onclick="rpe(this,3)">Hard</button><button onclick="rpe(this,4)">Very hard</button></div>
+    <div class="field"><label>BODY WEIGHT (OPTIONAL)</label><input id="wi" type="number" step=".1" placeholder="kg"></div>
+    <div class="field"><label>NOTE (OPTIONAL)</label><input id="ni" placeholder="One line"></div>
+    <button class="primary" onclick="complete()">MARK AS ATTENDED</button>
+  </div>
+</div>
 
 <script>
 const S=[
- ["Calisthenics","Upper Body Strength","Upper-body strength + skill",["Push strength","Pull strength","Progressive overload"]],
- ["Calisthenics","Calisthenics Skills","Muscle-up · L-sit · Handstand",["Muscle-up","L-sit","Handstand"]],
- ["Gym","Lower Body Strength","Lower-body strength + hypertrophy",["Squat pattern","Leg strength","Hypertrophy"]],
+ ["Calisthenics","Upper Body Strength","Upper-body strength + hypertrophy",["Push-ups","Dips","Pull-up progression","Core"]],
+ ["Calisthenics","Calisthenics Skills","Skill development",["Muscle-up progression","L-sit","Handstand","Mobility"]],
+ ["Gym","Leg Strength","Lower-body strength + hypertrophy",["Squat / hack squat","Romanian deadlift","Leg curl","Calf raises"]],
  ["Calisthenics","Plyometric + Knee Rehab","Athleticism + movement quality",["Plyometrics","Knee rehab","Mobility","Hip strength"]],
- ["Gym","Cardio + HYROX Conditioning","Engine + HYROX conditioning",["HYROX","Rowing","Cycling","Engine"]],
- ["Gym","Cardio Conditioning","Aerobic capacity + conditioning",["Zone 2","Intervals","Running"]],
- ["Rest","Rest","Recovery",["Recovery","Mobility"]]
+ ["Gym","HYROX Conditioning","HYROX + rowing + cycling",["Sled work","Rowing","Bike","Functional conditioning"]],
+ ["Gym","Cardio / Run","Aerobic capacity",["Zone 2","Incline walk","Cycling","Run"]],
+ ["Rest","Rest","Recovery",["Sleep","Mobility","Walking"]]
 ];
 
-// Naruto character progression. A gamified strength ladder for the 100-day challenge; not a canonical power ranking.
+/* Motivational Naruto ranking. This is a game-like progression, not a canonical power ranking. */
 const M=[
- {d:1,n:"Naruto",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_01_1.png"},
- {d:7,n:"Sakura",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_02_1.png"},
- {d:13,n:"Rock Lee",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_08_1.png"},
- {d:19,n:"Neji",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_10_1.png"},
- {d:25,n:"Gaara",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_28_1.png"},
- {d:31,n:"Kakashi",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_04_1.png"},
- {d:37,n:"Tsunade",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_27_1.png"},
- {d:43,n:"Orochimaru",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_16_1.png"},
- {d:49,n:"Itachi",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_18_1.png"},
- {d:55,n:"Killer Bee",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_32_1.png"},
- {d:61,n:"Minato",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_26_1.png"},
- {d:67,n:"Obito",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_33_1.png"},
- {d:73,n:"Hashirama",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_23_1.png"},
- {d:79,n:"Madara",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_34_1.png"},
- {d:91,n:"Sasuke",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_03_1.png"},
- {d:100,n:"Naruto — Final",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_01_1.png"}
+ {d:1,n:"Konohamaru Sarutobi",short:"Konohamaru",q:"The Academy Start"},
+ {d:7,n:"Sakura Haruno",short:"Sakura",q:"Control"},
+ {d:13,n:"Rock Lee",short:"Rock Lee",q:"Discipline"},
+ {d:19,n:"Neji Hyuga",short:"Neji",q:"Precision"},
+ {d:25,n:"Gaara",short:"Gaara",q:"Defense"},
+ {d:31,n:"Kakashi Hatake",short:"Kakashi",q:"Adaptation"},
+ {d:37,n:"Jiraiya",short:"Jiraiya",q:"Experience"},
+ {d:43,n:"Tsunade",short:"Tsunade",q:"Strength"},
+ {d:49,n:"Itachi Uchiha",short:"Itachi",q:"Mastery"},
+ {d:55,n:"Pain",short:"Pain",q:"Power"},
+ {d:61,n:"Obito Uchiha",short:"Obito",q:"Dimension"},
+ {d:67,n:"Minato Namikaze",short:"Minato",q:"Speed"},
+ {d:73,n:"Hashirama Senju",short:"Hashirama",q:"Legend"},
+ {d:79,n:"Madara Uchiha",short:"Madara",q:"Overwhelming"},
+ {d:85,n:"Sasuke Uchiha",short:"Sasuke",q:"Transcendence"},
+ {d:91,n:"Naruto Uzumaki",short:"Naruto",q:"Six Paths"},
+ {d:97,n:"Kaguya Otsutsuki",short:"Kaguya",q:"Final Form"}
 ];
 
 let st=JSON.parse(localStorage.getItem("m100")||"{}");
-st.start ??= new Date().toISOString().slice(0,10); st.done ??={}; st.logs ??={}; st.name ??=""; st.goal ??="60";
-let cd=1,r=null;
+st.start ??= new Date().toISOString().slice(0,10);
+st.done ??={}; st.logs ??={}; st.name ??=""; st.goal ??="60";
+let cd=1,r=null, charMap={};
 const save=()=>localStorage.setItem("m100",JSON.stringify(st));
 
-function info(d){
- const x=S[(d-1)%7], p=d<=25?"Foundation":d<=50?"Build":d<=75?"Performance":d<=90?"Peak Build":"Finish Strong";
- return {d,loc:x[0],name:x[1],desc:x[2],focus:x[3],phase:p};
-}
-function current(){
- const a=new Date(st.start+"T00:00:00"), b=new Date(), d=Math.floor((new Date(b.getFullYear(),b.getMonth(),b.getDate())-new Date(a.getFullYear(),a.getMonth(),a.getDate()))/86400000)+1;
- return Math.max(1,Math.min(100,d));
-}
-function getMilestone(d){let cur=M[0];for(const m of M){if(d>=m.d)cur=m;else break}const idx=M.indexOf(cur);return{cur,next:M[idx+1]||null,idx}}
+function info(d){const x=S[(d-1)%7];const p=d<=25?"Foundation":d<=50?"Build":d<=75?"Performance":d<=90?"Peak Build":"Finish Strong";return {d,loc:x[0],name:x[1],desc:x[2],focus:x[3],phase:p}}
+function current(){const a=new Date(st.start+"T00:00:00"),b=new Date();const d=Math.floor((new Date(b.getFullYear(),b.getMonth(),b.getDate())-new Date(a.getFullYear(),a.getMonth(),a.getDate()))/86400000)+1;return Math.max(1,Math.min(100,d))}
+function milestoneAt(d){let cur=M[0];for(const m of M){if(d>=m.d)cur=m;else break}const i=M.indexOf(cur);return {cur,next:M[i+1]||null}}
 function trainingDaysThrough(d){return Array.from({length:d},(_,i)=>i+1).filter(x=>info(x).loc!=="Rest").length}
 function streak(){let d=current(),s=0;for(let x=d;x>=1;x--){if(st.done[x])s++;else break}return s}
-function faceSVG(m){
- return `<img src="${m.img}" alt="${m.n}" loading="eager" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.classList.add('imgFail')">`;
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function fallbackSvg(name){
+ const initials=name.split(" ").map(x=>x[0]).slice(0,2).join("");
+ return "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><rect width="160" height="160" rx="32" fill="#171b2b"/><circle cx="80" cy="62" r="30" fill="#28314a"/><path d="M38 138c8-30 76-30 84 0" fill="#28314a"/><text x="80" y="92" fill="#b9c4dd" font-family="Arial" font-size="22" text-anchor="middle">${initials}</text></svg>`);
 }
-function renderFaces(mm){
- rankFace.innerHTML=faceSVG(mm.cur);
- if(mm.next){nextFace.innerHTML=faceSVG(mm.next);nextRank.textContent=mm.next.n.toUpperCase();nextDay.textContent="Day "+mm.next.d}
- else{nextFace.innerHTML="";nextRank.textContent="COMPLETE";nextDay.textContent="100 days"}
+function imgFor(name){
+ const key=name.toLowerCase();
+ const hit=Object.keys(charMap).find(k=>k===key || k.includes(key) || key.includes(k));
+ return hit?charMap[hit]:fallbackSvg(name);
 }
-function renderTimeline(d){
- const box=document.getElementById("timeline");
- const rows=[M.slice(0,6),M.slice(6,12),M.slice(12)];
- const labels=[];
- rows.forEach((arr,ri)=>arr.forEach(m=>labels.push(m)));
- let html="";
- rows.forEach((arr,ri)=>{
-   html+=`<div class="trow ${ri===2?"r3":ri===1?"r2":""}">`;
-   arr.forEach((m,j)=>{
-     const idx=M.indexOf(m), done=d>=m.d, cur=d>=m.d && (idx===M.length-1 || d<M[idx+1].d);
-     html+=`<div class="tnode ${done?"done ":""}${cur?"current":""}"><span class="tball" title="Day ${m.d}: ${m.n}"></span></div>`;
-   });
-   html+="</div>";
- });
- html+=`<div class="tlabels">`;
- M.forEach((m,i)=>{const cur=d>=m.d&&(i===M.length-1||d<M[i+1].d);html+=`<div class="tlabel ${cur?"current":""}"><strong>${m.d}</strong>${m.n}</div>`});
- html+="</div>";
- box.innerHTML=html;
+async function loadCharacters(){
+ try{
+  const cached=JSON.parse(localStorage.getItem("m100_chars")||"{}");
+  if(Object.keys(cached).length) charMap=cached;
+  const res=await fetch("https://api.jikan.moe/v4/anime/1735/characters");
+  if(!res.ok)throw new Error("character API");
+  const data=await res.json();
+  const wanted=M.map(x=>x.n.toLowerCase());
+  const map={...charMap};
+  (data.data||[]).forEach(row=>{
+    const n=(row.character?.name||"").toLowerCase();
+    if(wanted.some(w=>n===w||n.includes(w)||w.includes(n))){
+      map[n]=row.character.images?.jpg?.image_url || row.character.images?.webp?.image_url;
+    }
+  });
+  charMap=map;localStorage.setItem("m100_chars",JSON.stringify(map));renderToday();renderProgress();
+ }catch(e){renderToday();renderProgress()}
 }
 function show(id,btn){
- document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");
- document.querySelectorAll("nav button").forEach(x=>x.classList.remove("navActive"));if(btn)btn.classList.add("navActive");
+ document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll("nav button").forEach(x=>{x.classList.remove("navActive");x.style.color="#687188"});
+ if(btn){btn.classList.add("navActive");btn.style.color="#fff"}
  if(id==="today")renderToday();if(id==="plan")renderPlan();if(id==="progress")renderProgress();if(id==="me"){name.value=st.name;start.value=st.start;goal.value=st.goal}
 }
-function renderToday(){
- const d=current(),x=info(d),mm=getMilestone(d);cd=d;
- welcome.textContent=st.name?st.name+"'s 100 days.":"Your 100 days.";
- renderFaces(mm);rank.textContent=mm.cur.n.toUpperCase();rankday.textContent="Day "+d+" of 100";todayDay.textContent="Day "+d;
- const pct=d;journeyBar.style.width=pct+"%";journeyPct.textContent=d+"% of the journey";renderTimeline(d);
- const elapsed=trainingDaysThrough(d),doneTraining=Object.keys(st.done).map(Number).filter(q=>q<=d&&info(q).loc!=="Rest").length,ap=elapsed?Math.round(doneTraining/elapsed*100):0;
- attend.textContent=ap+"%";attendSub.textContent=doneTraining+" of "+elapsed+" training days";streakEl=document.getElementById("streak");streakEl.textContent=streak();completed.textContent=Object.keys(st.done).length;
- tn.textContent=x.name;tl.textContent=x.loc.toUpperCase();todayStatus.textContent=st.done[d]?"ATTENDED":"NOT YET";todayStatus.className="badge"+(st.done[d]?" done":"");
- const ws=Math.floor((d-1)/7)*7+1;let wc=0;week.innerHTML=Array.from({length:7},(_,i)=>{const q=ws+i;if(q>100)return"";if(st.done[q])wc++;const lab=["SUN","MON","TUE","WED","THU","FRI","SAT"][(new Date(st.start+"T00:00:00").getDay()+q-1)%7];return`<div class="daybox ${q===d?"today ":""}${st.done[q]?"done":""}" onclick="openDay(${q})"><b>${lab}</b>${q}</div>`}).join("");weekCount.textContent=wc+" / 7";
- const quotes=[["Start small.","The first win is simply showing up."],["Keep the streak alive.","You are building identity, not just attendance."],["One more day.","Momentum compounds when you keep your promise."],["Earn the next level.","The next character is waiting for consistency."]];const q=quotes[(d-1)%quotes.length];quoteTitle.textContent=q[0];quote.textContent=q[1];
+function renderPath(d){
+ const path=document.getElementById("path");
+ const visible=M;
+ path.innerHTML="";
+ for(let row=0;row<3;row++){
+   const start=row*6,end=Math.min(start+6,visible.length);
+   const items=visible.slice(start,end);
+   const rowEl=document.createElement("div");rowEl.className="pathRow"+(row%2?" reverse":"");
+   items.forEach((m,i)=>{
+     const cell=document.createElement("div");cell.className="pathCell";
+     const node=document.createElement("div");
+     const passed=d>=m.d;
+     const cur=d>=m.d && d<(visible[visible.indexOf(m)+1]?.d||101);
+     node.className="node"+(passed&&!cur?" done":"")+(cur?" current":"");
+     cell.appendChild(node);
+     if(i<items.length-1){const c=document.createElement("div");c.className="connector";cell.appendChild(c)}
+     const lab=document.createElement("div");lab.className="pathLabel"+(cur?" current":"");lab.textContent=m.d+" "+m.short;
+     cell.appendChild(lab);rowEl.appendChild(cell);
+   });
+   rowEl.classList.toggle("reverse",row%2===1);
+   path.appendChild(rowEl);
+ }
 }
-function renderPlan(){filters.innerHTML=["All","Gym","Calisthenics","Rest"].map((f,i)=>`<button class="filter ${i===0?"active":""}" onclick="filterPlan('${f}',this)">${f}</button>`).join("");filterPlan("All",filters.children[0])}
-function filterPlan(f,btn){document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));btn.classList.add("active");rows.innerHTML=Array.from({length:100},(_,i)=>i+1).filter(d=>f==="All"||info(d).loc===f).map(d=>{const x=info(d);return`<div class="planrow" onclick="openDay(${d})"><div class="num">${d}</div><div class="pinfo"><strong>${x.name}</strong><span>${x.loc} · ${x.phase}</span></div><div class="status ${st.done[d]?"done":""}">${st.done[d]?"✓":""}</div></div>`}).join("")}
-function openDay(d){cd=d;r=null;const x=info(d),l=st.logs[d]||{};md.textContent="DAY "+d+" · "+x.phase;mt.textContent=x.name;ml.textContent=x.loc.toUpperCase();mf.innerHTML=x.focus.map(a=>"<div>"+a+"</div>").join("");wi.value=l.weight||"";ni.value=l.note||"";document.querySelectorAll(".rpe button").forEach(x=>x.classList.remove("sel"));modal.classList.add("open")}
-function closeModal(){modal.classList.remove("open")}
+function renderToday(){
+ const d=current(),mm=milestoneAt(d),x=info(d);
+ welcome.textContent=st.name?st.name+"'s 100 days.":"Your 100 days.";
+ document.getElementById("rank").textContent=mm.cur.short.toUpperCase();
+ document.getElementById("rankday").textContent="Day "+d+" of 100";
+ document.getElementById("rankImg").src=imgFor(mm.cur.n);
+ document.getElementById("rankImg").alt=mm.cur.n;
+ document.getElementById("nextRank").textContent=mm.next?mm.next.short.toUpperCase():"COMPLETE";
+ document.getElementById("nextDay").textContent=mm.next?"Day "+mm.next.d:"100 days";
+ document.getElementById("nextImg").src=mm.next?imgFor(mm.next.n):imgFor(mm.cur.n);
+ const pct=d;
+ document.getElementById("journeyBar").style.width=pct+"%";
+ document.getElementById("journeyPct").textContent=pct+"% of the journey";
+ renderPath(d);
+ document.getElementById("tn").textContent=x.name;document.getElementById("tl").textContent=x.loc.toUpperCase();
+ document.getElementById("todayDay").textContent="DAY "+d;
+ const attended=!!st.done[d];
+ document.getElementById("todayStatus").textContent=attended?"ATTENDED":"NOT YET";
+ document.getElementById("todayStatus").className="badge"+(attended?" done":"");
+ const ab=document.getElementById("attendBtn");ab.textContent=attended?"ATTENDED ✓":"MARK TODAY AS ATTENDED";ab.className="attendBtn"+(attended?" done":"");
+ const elapsed=trainingDaysThrough(d),doneTraining=Object.keys(st.done).map(Number).filter(q=>q<=d&&info(q).loc!=="Rest").length;
+ document.getElementById("attend").textContent=(elapsed?Math.round(doneTraining/elapsed*100):0)+"%";
+ document.getElementById("attendSub").textContent=doneTraining+" of "+elapsed+" training days";
+ document.getElementById("streak").textContent=streak();document.getElementById("completed").textContent=Object.keys(st.done).length;
+ const ws=Math.floor((d-1)/7)*7+1;let wc=0;
+ document.getElementById("week").innerHTML=Array.from({length:7},(_,i)=>{const q=ws+i;if(q>100)return "";if(st.done[q])wc++;const lab=["1","2","3","4","5","6","7"][i];return `<div class="daybox ${q===d?"today ":""}${st.done[q]?"done":""}" onclick="openDay(${q})"><b>D${lab}</b>${q}</div>`}).join("");
+ document.getElementById("weekCount").textContent=wc+" / 7";
+ const quotes=[["KEEP SHOWING UP.","Your next transformation is one attendance away."],["CHAKRA BUILDS.","Small sessions compound into a stronger version of you."],["PROTECT THE STREAK.","You don't need a perfect day. You need to show up."],["EARN THE NEXT RANK.","The face changes because you kept your promise."]];
+ const q=quotes[(d-1)%quotes.length];document.getElementById("quoteTitle").textContent=q[0];document.getElementById("quote").textContent=q[1];
+}
+function renderPlan(){
+ const filters=document.getElementById("filters");
+ filters.innerHTML=["All","Gym","Calisthenics","Rest"].map((f,i)=>`<button class="filter ${i===0?"active":""}" onclick="filterPlan('${f}',this)">${f}</button>`).join("");
+ filterPlan("All",filters.children[0]);
+}
+function filterPlan(f,btn){
+ document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
+ document.getElementById("rows").innerHTML=Array.from({length:100},(_,i)=>i+1).filter(d=>f==="All"||info(d).loc===f).map(d=>{const x=info(d);return `<div class="planrow" onclick="openDay(${d})"><div class="num">${d}</div><div class="pinfo"><strong>${esc(x.name)}</strong><span>${x.loc} · ${x.phase}</span></div><div class="status ${st.done[d]?"done":""}">${st.done[d]?"✓":""}</div></div>`}).join("");
+}
+function renderProgress(){
+ const n=Object.keys(st.done).length,d=current(),elapsed=trainingDaysThrough(d),doneTraining=Object.keys(st.done).map(Number).filter(q=>q<=d&&info(q).loc!=="Rest").length,mm=milestoneAt(d);
+ document.getElementById("pc").textContent=n+" / 100";document.getElementById("completionBar").style.width=n+"%";
+ document.getElementById("progressRank").textContent=mm.cur.short;document.getElementById("progressRankSub").textContent="Day "+d+" · "+mm.cur.q;
+ document.getElementById("progressRankImg").src=imgFor(mm.cur.n);document.getElementById("cons").textContent=(elapsed?Math.round(doneTraining/elapsed*100):0)+"%";
+ document.getElementById("milestoneList").innerHTML=M.map((m,i)=>{const next=M[i+1]?.d||101;const state=d>=next?"DONE":(d>=m.d?"CURRENT":"LOCKED");return `<div class="milestoneRow"><img src="${imgFor(m.n)}" alt=""><div class="grow"><strong>${m.short}</strong><span>Day ${m.d} · ${m.q}</span></div><div class="state ${state==="CURRENT"?"current":""}">${state}</div></div>`}).join("");
+}
+function openDay(d){
+ cd=d;r=null;const x=info(d),l=st.logs[d]||{};
+ document.getElementById("md").textContent="DAY "+d+" · "+x.phase;document.getElementById("mt").textContent=x.name;document.getElementById("ml").textContent=x.loc.toUpperCase();
+ document.getElementById("mf").innerHTML=x.focus.map(a=>"<div>"+esc(a)+"</div>").join("");
+ document.getElementById("wi").value=l.weight||"";document.getElementById("ni").value=l.note||"";
+ document.querySelectorAll(".rpe button").forEach(x=>x.classList.remove("sel"));
+ document.getElementById("modal").classList.add("open");
+}
+function closeModal(){document.getElementById("modal").classList.remove("open")}
 function rpe(b,n){r=n;document.querySelectorAll(".rpe button").forEach(x=>x.classList.remove("sel"));b.classList.add("sel")}
-function complete(){st.done[cd]=true;st.logs[cd]={rpe:r,weight:wi.value,note:ni.value};save();closeModal();renderToday();renderProgress();if(document.getElementById("plan").classList.contains("active"))renderPlan()}
-function renderProgress(){const n=Object.keys(st.done).length,d=current(),elapsed=trainingDaysThrough(d),doneTraining=Object.keys(st.done).map(Number).filter(q=>q<=d&&info(q).loc!=="Rest").length;pc.textContent=n+" / 100";pp.textContent=n+"%";completionBar.style.width=n+"%";cons.textContent=(elapsed?Math.round(doneTraining/elapsed*100):0)+"%";const mm=getMilestone(d);progressRank.textContent=mm.cur.n;progressRankSub.textContent="Day "+d+" of 100";const w=Object.values(st.logs).map(x=>+x.weight).filter(Number.isFinite);bw.textContent=w.length?w[w.length-1]+" kg":"—";if(!w.length){spark.innerHTML="";return}const mn=Math.min(...w),mx=Math.max(...w);spark.innerHTML=w.slice(-16).map(v=>{const h=mx===mn?45:15+(v-mn)/(mx-mn)*75;return`<i style="height:${h}%"></i>`}).join("")}
-function saveSettings(){st.name=name.value.trim();st.start=start.value||st.start;st.goal=goal.value||"60";save();renderToday();renderProgress();alert("Saved")}
+function complete(){st.done[cd]=true;st.logs[cd]={rpe:r,weight:document.getElementById("wi").value,note:document.getElementById("ni").value};save();closeModal();renderToday();renderProgress();if(document.getElementById("plan").classList.contains("active"))renderPlan()}
+function saveSettings(){st.name=document.getElementById("name").value.trim();st.start=document.getElementById("start").value||st.start;st.goal=document.getElementById("goal").value||"60";save();renderToday();renderProgress();alert("Saved")}
 function resetData(){if(confirm("Reset all attendance and logs?")){st.done={};st.logs={};save();renderToday();renderProgress()}}
 if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js");
-renderToday();renderProgress();
+renderToday();renderProgress();loadCharacters();
 </script>
 </body></html>

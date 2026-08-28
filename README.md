@@ -1,17 +1,33 @@
-# 100-Day Muscle + HYROX PWA V5
+# 100-Day Shinobi Journey PWA V4
 
-Personal 100-day attendance and consistency tracker.
+Attendance-first 100-day muscle + HYROX tracker.
 
-## V5 changes
-- Naruto character progression uses real character artwork loaded from the TV Tokyo Naruto character gallery.
-- Current and next milestone show character artwork.
-- Journey pipe uses Rasengan-style balls only.
-- 16 milestone points are connected across three rows.
-- Attendance/streak/completion remain local-only in browser storage.
-- Plan locations: Upper Body + Skills + Plyometric/Knee Rehab = Calisthenics; Lower Body + Cardio/HYROX + Cardio Conditioning = Gym; Rest = Rest.
+## What changed
+- Naruto/Shippuden-inspired motivational milestone system.
+- Real character portraits loaded from the Jikan/MyAnimeList character image data at runtime and cached locally after first load.
+- Current level shows a character portrait; next level shows the upcoming character portrait.
+- 3-row connected chakra/Rasengan-style milestone pipe: only blue chakra balls appear on the journey path.
+- Cleaner mobile-first dashboard focused on attendance, streak and completed days.
+- No "Start Workout" action on the home dashboard.
+- Daily action is simply "Mark Today as Attended".
+- Schedule categories corrected:
+  - Upper Body Strength → Calisthenics
+  - Calisthenics Skills → Calisthenics
+  - Leg Strength → Gym
+  - Plyometric + Knee Rehab → Calisthenics
+  - HYROX Conditioning → Gym
+  - Cardio / Run → Gym
+  - Rest → Rest
+- Existing `localStorage` key `m100` is preserved, so existing attendance data can continue to work.
 
-## Deployment
-Upload `index.html`, `manifest.json`, `icon.svg`, `sw.js`, and `README.md` to the existing GitHub repository and commit to `main`. GitHub Pages will publish the update.
+## Images
+Character images are fetched from Jikan's public API (MyAnimeList-derived data) and cached in the browser. Internet access is needed the first time character portraits are loaded; the app keeps cached images where the browser/service worker allows.
 
-## Note on character artwork
-Character images are loaded from the public TV Tokyo Naruto character-image URLs at runtime. An internet connection is therefore required for the character portraits. The artwork remains the property of its respective copyright holders.
+## GitHub Pages
+Upload/replace:
+- `index.html`
+- `manifest.json`
+- `sw.js`
+- `icon.svg`
+
+Then GitHub Pages will publish the updated PWA from the main branch.

@@ -1,10 +1,10 @@
 {
-  "name": "100-Day Muscle + HYROX Journey",
-  "short_name": "100-Day Journey",
+  "name": "100-Day Shinobi Journey",
+  "short_name": "Shinobi 100",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#07080a",
-  "theme_color": "#07080a",
+  "background_color": "#070914",
+  "theme_color": "#070914",
   "icons": [
     {
       "src": "icon.svg",
