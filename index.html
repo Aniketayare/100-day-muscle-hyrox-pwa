@@ -45,7 +45,7 @@ header{height:66px;display:flex;align-items:center;justify-content:space-between
 .current small,.next small{display:block;color:var(--green);font-size:9px;letter-spacing:.18em;font-weight:800;margin-bottom:8px}
 .rankRow{display:flex;align-items:center;gap:12px}
 .portrait{width:74px;height:74px;border-radius:22px;object-fit:cover;object-position:center top;background:#171b2b;border:1px solid #343b58;box-shadow:0 0 0 5px rgba(54,167,255,.05),0 10px 30px rgba(0,0,0,.35)}
-.portrait.small{width:50px;height:50px;border-radius:16px;box-shadow:none}
+.portrait.small{width:50px;height:50px;border-radius:16px;box-shadow:none}.imgMissing{background:radial-gradient(circle,#27365d,#171b2b);display:flex;align-items:center;justify-content:center}.imgMissing:after{content:"✦";color:#55b8ff;font-size:20px}
 .rankName{font-size:28px;font-weight:900;letter-spacing:-.04em}
 .rankDay{font-size:13px;color:var(--muted);margin-top:3px}
 .next{width:142px;border:1px solid #2b3148;background:rgba(17,21,40,.72);border-radius:20px;padding:11px;text-align:center}
@@ -111,7 +111,7 @@ header{height:66px;display:flex;align-items:center;justify-content:space-between
 
 <section id="today" class="screen active">
   <div class="hero">
-    <div class="eyebrow">CONSISTENCY IS THE GOAL</div>
+    <div class="eyebrow">100-DAY JOURNEY · STARTED 29 AUG 2026</div>
     <h1 id="welcome">Your 100 days.</h1>
     <div class="sub">Show up. Build momentum. Become stronger.</div>
   </div>
@@ -259,10 +259,15 @@ const M=[
  {d:97,n:"Kaguya Otsutsuki",short:"Kaguya",q:"Final Form"}
 ];
 
+const JOURNEY_START="2026-08-29";
 let st=JSON.parse(localStorage.getItem("m100")||"{}");
-st.start ??= new Date().toISOString().slice(0,10);
-st.done ??={}; st.logs ??={}; st.name ??=""; st.goal ??="60";
-let cd=1,r=null, charMap={};
+// V5 starts the 100-day journey on 29 Aug 2026. Previous test data is cleared once.
+if(st.schema!==5){
+  st={schema:5,start:JOURNEY_START,done:{},logs:{},name:st.name||"",goal:st.goal||"60"};
+}else{
+  st.start=JOURNEY_START; st.done??={}; st.logs??={}; st.name??=""; st.goal??="60";
+}
+let cd=1,r=null;
 const save=()=>localStorage.setItem("m100",JSON.stringify(st));
 
 function info(d){const x=S[(d-1)%7];const p=d<=25?"Foundation":d<=50?"Build":d<=75?"Performance":d<=90?"Peak Build":"Finish Strong";return {d,loc:x[0],name:x[1],desc:x[2],focus:x[3],phase:p}}
@@ -271,32 +276,29 @@ function milestoneAt(d){let cur=M[0];for(const m of M){if(d>=m.d)cur=m;else brea
 function trainingDaysThrough(d){return Array.from({length:d},(_,i)=>i+1).filter(x=>info(x).loc!=="Rest").length}
 function streak(){let d=current(),s=0;for(let x=d;x>=1;x--){if(st.done[x])s++;else break}return s}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
-function fallbackSvg(name){
- const initials=name.split(" ").map(x=>x[0]).slice(0,2).join("");
- return "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><rect width="160" height="160" rx="32" fill="#171b2b"/><circle cx="80" cy="62" r="30" fill="#28314a"/><path d="M38 138c8-30 76-30 84 0" fill="#28314a"/><text x="80" y="92" fill="#b9c4dd" font-family="Arial" font-size="22" text-anchor="middle">${initials}</text></svg>`);
-}
-function imgFor(name){
- const key=name.toLowerCase();
- const hit=Object.keys(charMap).find(k=>k===key || k.includes(key) || key.includes(k));
- return hit?charMap[hit]:fallbackSvg(name);
-}
-async function loadCharacters(){
- try{
-  const cached=JSON.parse(localStorage.getItem("m100_chars")||"{}");
-  if(Object.keys(cached).length) charMap=cached;
-  const res=await fetch("https://api.jikan.moe/v4/anime/1735/characters");
-  if(!res.ok)throw new Error("character API");
-  const data=await res.json();
-  const wanted=M.map(x=>x.n.toLowerCase());
-  const map={...charMap};
-  (data.data||[]).forEach(row=>{
-    const n=(row.character?.name||"").toLowerCase();
-    if(wanted.some(w=>n===w||n.includes(w)||w.includes(n))){
-      map[n]=row.character.images?.jpg?.image_url || row.character.images?.webp?.image_url;
-    }
-  });
-  charMap=map;localStorage.setItem("m100_chars",JSON.stringify(map));renderToday();renderProgress();
- }catch(e){renderToday();renderProgress()}
+const CHAR_IMG={
+ "Konohamaru Sarutobi":"https://narutodle.app/avatars/konohamaru-sarutobi%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Sakura Haruno":"https://narutodle.app/avatars/sakura-haruno%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Rock Lee":"https://narutodle.app/avatars/rock-lee%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Neji Hyuga":"https://narutodle.app/avatars/neji-hyuga%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Gaara":"https://narutodle.app/avatars/gaara%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Kakashi Hatake":"https://narutodle.app/avatars/kakashi-hatake%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Jiraiya":"https://narutodle.app/avatars/jiraiya%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Tsunade":"https://narutodle.app/avatars/tsunade%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Itachi Uchiha":"https://narutodle.app/avatars/itachi-uchiha%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Pain":"https://narutodle.app/avatars/pain%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Obito Uchiha":"https://narutodle.app/avatars/obito-uchiha%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Minato Namikaze":"https://narutodle.app/avatars/minato-namikaze%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Hashirama Senju":"https://narutodle.app/avatars/hashirama-senju%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Madara Uchiha":"https://narutodle.app/avatars/madara-uchiha%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Sasuke Uchiha":"https://narutodle.app/avatars/sasuke-uchiha%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Naruto Uzumaki":"https://narutodle.app/avatars/naruto-uzumaki%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG",
+ "Kaguya Otsutsuki":"https://narutodle.app/avatars/kaguya-otsutsuki%402x.webp?dpl=dpl_NmfFmcTFD4S9WcLYjuAPiNPbbKEG"
+};
+function imgFor(name){return CHAR_IMG[name] || "";}
+function bindImage(img,name){
+  img.src=imgFor(name); img.alt=name;
+  img.onerror=()=>{img.style.visibility="hidden"; img.parentElement.classList.add("imgMissing")};
 }
 function show(id,btn){
  document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
@@ -333,11 +335,10 @@ function renderToday(){
  welcome.textContent=st.name?st.name+"'s 100 days.":"Your 100 days.";
  document.getElementById("rank").textContent=mm.cur.short.toUpperCase();
  document.getElementById("rankday").textContent="Day "+d+" of 100";
- document.getElementById("rankImg").src=imgFor(mm.cur.n);
- document.getElementById("rankImg").alt=mm.cur.n;
+ bindImage(document.getElementById("rankImg"),mm.cur.n);
  document.getElementById("nextRank").textContent=mm.next?mm.next.short.toUpperCase():"COMPLETE";
  document.getElementById("nextDay").textContent=mm.next?"Day "+mm.next.d:"100 days";
- document.getElementById("nextImg").src=mm.next?imgFor(mm.next.n):imgFor(mm.cur.n);
+ bindImage(document.getElementById("nextImg"),mm.next?mm.next.n:mm.cur.n);
  const pct=d;
  document.getElementById("journeyBar").style.width=pct+"%";
  document.getElementById("journeyPct").textContent=pct+"% of the journey";
@@ -371,8 +372,8 @@ function renderProgress(){
  const n=Object.keys(st.done).length,d=current(),elapsed=trainingDaysThrough(d),doneTraining=Object.keys(st.done).map(Number).filter(q=>q<=d&&info(q).loc!=="Rest").length,mm=milestoneAt(d);
  document.getElementById("pc").textContent=n+" / 100";document.getElementById("completionBar").style.width=n+"%";
  document.getElementById("progressRank").textContent=mm.cur.short;document.getElementById("progressRankSub").textContent="Day "+d+" · "+mm.cur.q;
- document.getElementById("progressRankImg").src=imgFor(mm.cur.n);document.getElementById("cons").textContent=(elapsed?Math.round(doneTraining/elapsed*100):0)+"%";
- document.getElementById("milestoneList").innerHTML=M.map((m,i)=>{const next=M[i+1]?.d||101;const state=d>=next?"DONE":(d>=m.d?"CURRENT":"LOCKED");return `<div class="milestoneRow"><img src="${imgFor(m.n)}" alt=""><div class="grow"><strong>${m.short}</strong><span>Day ${m.d} · ${m.q}</span></div><div class="state ${state==="CURRENT"?"current":""}">${state}</div></div>`}).join("");
+ bindImage(document.getElementById("progressRankImg"),mm.cur.n);document.getElementById("cons").textContent=(elapsed?Math.round(doneTraining/elapsed*100):0)+"%";
+ document.getElementById("milestoneList").innerHTML=M.map((m,i)=>{const next=M[i+1]?.d||101;const state=d>=next?"DONE":(d>=m.d?"CURRENT":"LOCKED");return `<div class="milestoneRow"><img src="${imgFor(m.n)}" alt="${esc(m.n)}"><div class="grow"><strong>${m.short}</strong><span>Day ${m.d} · ${m.q}</span></div><div class="state ${state==="CURRENT"?"current":""}">${state}</div></div>`}).join("");
 }
 function openDay(d){
  cd=d;r=null;const x=info(d),l=st.logs[d]||{};
@@ -388,6 +389,6 @@ function complete(){st.done[cd]=true;st.logs[cd]={rpe:r,weight:document.getEleme
 function saveSettings(){st.name=document.getElementById("name").value.trim();st.start=document.getElementById("start").value||st.start;st.goal=document.getElementById("goal").value||"60";save();renderToday();renderProgress();alert("Saved")}
 function resetData(){if(confirm("Reset all attendance and logs?")){st.done={};st.logs={};save();renderToday();renderProgress()}}
 if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js");
-renderToday();renderProgress();loadCharacters();
+renderToday();renderProgress();
 </script>
 </body></html>
