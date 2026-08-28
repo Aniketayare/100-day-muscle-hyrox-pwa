@@ -1,16 +1,16 @@
 {
-  "name": "100-Day Muscle + HYROX",
-  "short_name": "100-Day",
+  "name": "100-Day Muscle + HYROX Journey",
+  "short_name": "100-Day Journey",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
-  "description": "Minimal personal training PWA",
+  "background_color": "#08090b",
+  "theme_color": "#08090b",
   "icons": [
     {
       "src": "icon.svg",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ]
 }
