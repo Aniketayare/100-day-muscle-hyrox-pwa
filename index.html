@@ -33,7 +33,7 @@ header{height:58px;display:flex;align-items:center;justify-content:space-between
 .current small,.next small{display:block;color:var(--green);font-size:9px;letter-spacing:1.15px;text-transform:uppercase}
 .character{display:flex;align-items:center;gap:11px;margin-top:5px}
 .face{width:62px;height:62px;border-radius:18px;background:#171a20;border:1px solid #303640;display:grid;place-items:center;overflow:hidden;flex:0 0 auto}
-.face svg{width:100%;height:100%;display:block}
+.face img{width:100%;height:100%;display:block;object-fit:cover;object-position:50% 16%;transform:scale(2.35)}.face.imgFail:after{content:"忍";font-size:28px;color:#54d8ff}
 .rankname{font-size:25px;font-weight:750;letter-spacing:-.8px;line-height:1}
 .current .day{color:var(--muted);font-size:12px;margin-top:7px}
 .next{text-align:right;border:1px solid #2d323b;background:#12151a;border-radius:15px;padding:11px 12px;min-width:128px}
@@ -61,7 +61,7 @@ header{height:58px;display:flex;align-items:center;justify-content:space-between
 .trow.r3{direction:ltr}
 .turn{position:absolute;width:18px;height:32px;border-left:3px solid #3d4450;right:0;top:25px;border-bottom:3px solid #3d4450;border-radius:0 0 7px 0}
 .turn.up{top:-5px;bottom:auto;border-bottom:0;border-top:3px solid #3d4450;border-radius:0 7px 0 0}
-.tlabels{display:grid;grid-template-columns:repeat(17,1fr);gap:0;margin-top:2px}
+.tlabels{display:grid;grid-template-columns:repeat(16,1fr);gap:0;margin-top:2px}
 .tlabel{text-align:center;font-size:7px;color:#555b65;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tlabel strong{display:block;color:#737a86;font-size:7px;font-weight:500}.tlabel.current strong{color:var(--green)}.tlabel.current{color:#9aa1ac}
 
@@ -167,25 +167,24 @@ const S=[
  ["Rest","Rest","Recovery",["Recovery","Mobility"]]
 ];
 
-// Motivational Naruto character progression. The ordering is a gamified strength ladder, not a canonical power ranking.
+// Naruto character progression. A gamified strength ladder for the 100-day challenge; not a canonical power ranking.
 const M=[
- {d:1,n:"Konohamaru",hair:"#6f3e20",band:"#6c9bff",skin:"#f0bd91"},
- {d:7,n:"Sakura",hair:"#e98aa5",band:"#8d8f98",skin:"#f0bd91"},
- {d:13,n:"Rock Lee",hair:"#17191d",band:"#d88b55",skin:"#d9a77e"},
- {d:19,n:"Neji",hair:"#b9c4d5",band:"#6d91d8",skin:"#efc39d"},
- {d:25,n:"Gaara",hair:"#c86e36",band:"#55565c",skin:"#dca37d"},
- {d:31,n:"Kakashi",hair:"#d7dce5",band:"#4d78b8",skin:"#e8b995"},
- {d:37,n:"Jiraiya",hair:"#e7e9ed",band:"#7b5b48",skin:"#dba984"},
- {d:43,n:"Tsunade",hair:"#e5dcae",band:"#9d9d9d",skin:"#efbd91"},
- {d:49,n:"Itachi",hair:"#15161b",band:"#bd3e45",skin:"#e0a67e"},
- {d:55,n:"Pain",hair:"#a65d5c",band:"#8a444d",skin:"#e1ad88"},
- {d:61,n:"Orochimaru",hair:"#17181d",band:"#b3b8c2",skin:"#dfb38d"},
- {d:67,n:"Minato",hair:"#f0d35b",band:"#4d8fd0",skin:"#f0bf95"},
- {d:73,n:"Obito",hair:"#202126",band:"#665d4e",skin:"#d9a17d"},
- {d:79,n:"Hashirama",hair:"#25262b",band:"#496a55",skin:"#dda77f"},
- {d:85,n:"Madara",hair:"#242329",band:"#87464d",skin:"#d9a17e"},
- {d:91,n:"Naruto",hair:"#e7a33b",band:"#4e83d5",skin:"#efbd91"},
- {d:97,n:"Kaguya",hair:"#ececf0",band:"#8d8bb0",skin:"#e7c1a0"}
+ {d:1,n:"Naruto",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_01_1.png"},
+ {d:7,n:"Sakura",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_02_1.png"},
+ {d:13,n:"Rock Lee",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_08_1.png"},
+ {d:19,n:"Neji",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_10_1.png"},
+ {d:25,n:"Gaara",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_28_1.png"},
+ {d:31,n:"Kakashi",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_04_1.png"},
+ {d:37,n:"Tsunade",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_27_1.png"},
+ {d:43,n:"Orochimaru",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_16_1.png"},
+ {d:49,n:"Itachi",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_18_1.png"},
+ {d:55,n:"Killer Bee",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_32_1.png"},
+ {d:61,n:"Minato",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_26_1.png"},
+ {d:67,n:"Obito",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_33_1.png"},
+ {d:73,n:"Hashirama",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_23_1.png"},
+ {d:79,n:"Madara",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_34_1.png"},
+ {d:91,n:"Sasuke",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_03_1.png"},
+ {d:100,n:"Naruto — Final",img:"https://www.tv-tokyo.co.jp/anime/naruto/sp/images/chara/chara_01_1.png"}
 ];
 
 let st=JSON.parse(localStorage.getItem("m100")||"{}");
@@ -205,16 +204,7 @@ function getMilestone(d){let cur=M[0];for(const m of M){if(d>=m.d)cur=m;else bre
 function trainingDaysThrough(d){return Array.from({length:d},(_,i)=>i+1).filter(x=>info(x).loc!=="Rest").length}
 function streak(){let d=current(),s=0;for(let x=d;x>=1;x--){if(st.done[x])s++;else break}return s}
 function faceSVG(m){
- return `<svg viewBox="0 0 100 100" aria-label="${m.n}">
- <defs><linearGradient id="g${m.d}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${m.hair}"/><stop offset="1" stop-color="#11131a"/></linearGradient></defs>
- <rect width="100" height="100" rx="22" fill="#171a20"/>
- <path d="M18 38 Q20 13 50 12 Q80 13 82 38 L77 32 Q69 24 50 25 Q30 24 23 33Z" fill="url(#g${m.d})"/>
- <path d="M25 42 Q50 31 75 42 L73 69 Q67 85 50 88 Q33 85 27 69Z" fill="${m.skin}"/>
- <rect x="24" y="32" width="52" height="9" rx="4" fill="${m.band}" opacity=".92"/>
- <circle cx="42" cy="55" r="4" fill="#15171b"/><circle cx="58" cy="55" r="4" fill="#15171b"/>
- <path d="M43 70 Q50 74 57 70" fill="none" stroke="#633d3a" stroke-width="3" stroke-linecap="round"/>
- <path d="M33 48 Q42 44 47 48 M53 48 Q58 44 67 48" fill="none" stroke="#7b5147" stroke-width="2" stroke-linecap="round"/>
- </svg>`;
+ return `<img src="${m.img}" alt="${m.n}" loading="eager" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.classList.add('imgFail')">`;
 }
 function renderFaces(mm){
  rankFace.innerHTML=faceSVG(mm.cur);

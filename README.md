@@ -1,26 +1,17 @@
-# 100-Day Muscle + HYROX PWA V4
+# 100-Day Muscle + HYROX PWA V5
 
-Attendance-first personal 100-day consistency tracker.
+Personal 100-day attendance and consistency tracker.
 
-## V4 changes
-- Naruto character milestone ladder from Day 1 → Day 100.
-- Current and next milestone use character-style face icons.
-- The 100-day journey is displayed as a compact 3-row connected pipe.
-- Only Rasengan-style balls appear inside the journey pipe.
-- Multicolor progress bar.
-- Home page stays attendance-first; no Start Workout button.
-- Correct training locations:
-  - Upper Body Strength → Calisthenics
-  - Calisthenics Skills → Calisthenics
-  - Lower Body Strength → Gym
-  - Plyometric + Knee Rehab → Calisthenics
-  - Cardio + HYROX Conditioning → Gym
-  - Cardio Conditioning → Gym
-  - Rest → Rest
-- Attendance, streak, completion, weekly attendance and logs remain local-only.
+## V5 changes
+- Naruto character progression uses real character artwork loaded from the TV Tokyo Naruto character gallery.
+- Current and next milestone show character artwork.
+- Journey pipe uses Rasengan-style balls only.
+- 16 milestone points are connected across three rows.
+- Attendance/streak/completion remain local-only in browser storage.
+- Plan locations: Upper Body + Skills + Plyometric/Knee Rehab = Calisthenics; Lower Body + Cardio/HYROX + Cardio Conditioning = Gym; Rest = Rest.
 
-## Data
-The prototype stores attendance/log data in the browser using localStorage. No database is required.
+## Deployment
+Upload `index.html`, `manifest.json`, `icon.svg`, `sw.js`, and `README.md` to the existing GitHub repository and commit to `main`. GitHub Pages will publish the update.
 
-## Deploy
-Upload the four files to the repository root and GitHub Pages will publish the update.
+## Note on character artwork
+Character images are loaded from the public TV Tokyo Naruto character-image URLs at runtime. An internet connection is therefore required for the character portraits. The artwork remains the property of its respective copyright holders.
