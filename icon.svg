@@ -1,7 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<rect width="512" height="512" rx="112" fill="#08090b"/>
-<circle cx="256" cy="256" r="160" fill="none" stroke="#9be65c" stroke-width="24"/>
-<path d="M128 270h256" stroke="#fff" stroke-width="20" stroke-linecap="round"/>
-<path d="M256 128v256" stroke="#54d6d2" stroke-width="20" stroke-linecap="round"/>
-<circle cx="256" cy="256" r="34" fill="#fff"/>
+<defs><radialGradient id="b"><stop stop-color="#e9ffff"/><stop offset=".12" stop-color="#65e5ff"/><stop offset=".42" stop-color="#287cff"/><stop offset=".78" stop-color="#122d82"/><stop offset="1" stop-color="#070a14"/></radialGradient><linearGradient id="r" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9bea58"/><stop offset=".55" stop-color="#54d8ff"/><stop offset="1" stop-color="#a981ff"/></linearGradient></defs>
+<rect width="512" height="512" rx="116" fill="#08090b"/>
+<circle cx="256" cy="256" r="176" fill="none" stroke="url(#r)" stroke-width="24" opacity=".9"/>
+<path d="M164 246c20-66 90-98 151-65 47 25 65 83 41 132-28 57-100 78-154 43-40-26-56-74-38-115z" fill="url(#b)"/>
+<path d="M183 260c45-44 112-50 154-3-28-8-59-6-86 10-25 15-43 37-50 63-18-20-25-45-18-70z" fill="#9beaff" opacity=".42"/>
+<circle cx="256" cy="256" r="24" fill="#f4ffff"/>
+<text x="256" y="427" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="58" fill="#f5f6f8" letter-spacing="4">100</text>
 </svg>
